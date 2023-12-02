@@ -2,9 +2,13 @@ import re
 import pandas as pd
 
 
-def read_file(file_path: str) -> pd.DataFrame:
+def read_file(file_path: str) -> list:
     with open(file_path, "r") as file:
         lines = file.readlines()
+    return lines
+
+
+def convert_to_df(lines: list) -> pd.DataFrame:
     rows_dict = {
         "game_id": [],
         "draw_id": [],
@@ -34,13 +38,15 @@ def read_file(file_path: str) -> pd.DataFrame:
     return df
 
 
-def solve_part_1(df: pd.DataFrame, red: int, green: int, blue: int):
+def solve_part_1(lines: list, red: int, green: int, blue: int):
+    df = convert_to_df(lines)
     impossible_df = df[(df["red"] > red) | (df["green"] > green) | (df["blue"] > blue)]
     possible_games = set(df["game_id"]) - set(impossible_df["game_id"])
     return sum(possible_games)
 
 
-def solve_part_2(df: pd.DataFrame) -> int:
+def solve_part_2(lines: list) -> int:
+    df = convert_to_df(lines)
     df_min = df.groupby(
         by=["game_id"],
     ).max()
