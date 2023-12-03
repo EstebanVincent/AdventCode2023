@@ -1,20 +1,14 @@
 import re
 import pandas as pd
-
-
-def read_file(file_path: str) -> list:
-    with open(file_path, "r") as file:
-        lines = file.readlines()
-    return lines
+from typing import Optional
 
 
 def convert_to_df(lines: list, part_2: bool = False) -> pd.DataFrame:
-    clean_lines = [line.replace("\n", "") for line in lines]
     if part_2:
-        array_2d = [list(line) for line in clean_lines]
+        array_2d = [list(line) for line in lines]
         df = pd.DataFrame(array_2d)
         return df
-    changed_symbols_lines = [re.sub(r"[^.\d]+", "*", line) for line in clean_lines]
+    changed_symbols_lines = [re.sub(r"[^.\d]+", "*", line) for line in lines]
     array_2d = [list(line) for line in changed_symbols_lines]
     df = pd.DataFrame(array_2d)
     return df
@@ -48,7 +42,7 @@ def solve_part_1(lines: list) -> int:
             if cell_index in treated_cells:
                 continue
             treated_cells.add(cell_index)
-            cell_value = df.loc[row_index, column_index]
+            cell_value = str(df.loc[row_index, column_index])
             number = ""
             number_index = list()
             i = 0
@@ -58,7 +52,7 @@ def solve_part_1(lines: list) -> int:
                 i += 1
                 if column_index + i == df.shape[1]:
                     break
-                cell_value = df.loc[row_index, column_index + i]
+                cell_value = str(df.loc[row_index, column_index + i])
                 treated_cells.add((row_index, column_index + i))
             if valid_part_number():
                 part_numbers.append(int(number))
@@ -66,7 +60,7 @@ def solve_part_1(lines: list) -> int:
 
 
 def solve_part_2(lines: list) -> int:
-    def get_asterixs() -> list:
+    def get_asterixs() -> Optional[list]:
         if not number_index:
             return None
         row = number_index[0][0]
@@ -111,7 +105,7 @@ def solve_part_2(lines: list) -> int:
             if cell_index in treated_cells:
                 continue
             treated_cells.add(cell_index)
-            cell_value = df.loc[row_index, column_index]
+            cell_value = str(df.loc[row_index, column_index])
             number = ""
             number_index = list()
             i = 0
@@ -121,7 +115,7 @@ def solve_part_2(lines: list) -> int:
                 i += 1
                 if column_index + i == df.shape[1]:
                     break
-                cell_value = df.loc[row_index, column_index + i]
+                cell_value = str(df.loc[row_index, column_index + i])
                 treated_cells.add((row_index, column_index + i))
             asterix_cells = get_asterixs()
             if not asterix_cells:
@@ -132,7 +126,3 @@ def solve_part_2(lines: list) -> int:
     gears_df = get_gears_df()
     result_df = gears_df.groupby(["potential_gears"]).agg("prod")
     return result_df["adjacent_number"].sum()
-
-
-lines = read_file("day_3/example_2.txt")
-print(solve_part_2(lines))

@@ -1,12 +1,6 @@
 import re
 
 
-def read_file(file_path: str) -> list:
-    with open(file_path, "r") as file:
-        lines = file.readlines()
-    return lines
-
-
 def solve_part_1(lines: list) -> int:
     list_str_digits = ["".join(re.findall(r"\d+", line.strip())) for line in lines]
     list_calibration_values = [
@@ -28,15 +22,9 @@ def replace_str_number(line: str) -> str:
         "eight",
         "nine",
     ]
-    number_dict = {word: str(i) for i, word in enumerate(literal_numbers, start=1)}
+    index_first_match, replaced_first_occurence_line = 0, ""
+    first_occurence_list, last_occurence_list = [], []
 
-    (
-        first_occurence_list,
-        last_occurence_list,
-    ) = (
-        [],
-        [],
-    )
     for literal_number in literal_numbers:
         first_occurence_list.append(line.find(literal_number))
         last_occurence_list.append(line.rfind(literal_number))

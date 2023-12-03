@@ -1,11 +1,4 @@
-import re
 import pandas as pd
-
-
-def read_file(file_path: str) -> list:
-    with open(file_path, "r") as file:
-        lines = file.readlines()
-    return lines
 
 
 def convert_to_df(lines: list) -> pd.DataFrame:
@@ -18,7 +11,6 @@ def convert_to_df(lines: list) -> pd.DataFrame:
     }
     for game_id, line in enumerate(lines, 1):
         _, game = line.split(":", 1)
-        game = game.replace("\n", "")
         draws = game.split(";")
         for draw_id, draw in enumerate(draws, 1):
             sets = draw.split(",")
@@ -34,7 +26,7 @@ def convert_to_df(lines: list) -> pd.DataFrame:
                 row[key] = value
             for key in row:
                 rows_dict[key].append(row[key])
-    df = pd.DataFrame.from_dict(rows_dict, dtype=int)
+    df = pd.DataFrame.from_dict(rows_dict).astype(int)
     return df
 
 
