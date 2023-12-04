@@ -1,6 +1,7 @@
 import re
-import pandas as pd
 from typing import Optional
+
+import pandas as pd
 
 
 def convert_to_df(lines: list, part_2: bool = False) -> pd.DataFrame:

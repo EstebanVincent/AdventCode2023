@@ -21,11 +21,11 @@ def convert_to_df(lines: list) -> pd.DataFrame:
                 "green": 0,
                 "blue": 0,
             }
-            for set in sets:
-                _, value, key = set.split(" ")
+            for s in sets:
+                _, value, key = s.split(" ")
                 row[key] = value
-            for key in row:
-                rows_dict[key].append(row[key])
+            for key, value in row.items():
+                rows_dict[key].append(value)
     df = pd.DataFrame.from_dict(rows_dict).astype(int)
     return df
 
