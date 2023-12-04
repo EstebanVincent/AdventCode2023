@@ -195,3 +195,6 @@ tmp/
 scripts/.env_ms_graph
 
 .vscode/
+
+#adventcode2023
+*.txt
