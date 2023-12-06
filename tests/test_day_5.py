@@ -17,7 +17,7 @@ def test_solve_part_1_with_input():
 def test_solve_part_2_with_example_2():
     example_2_lines = read_file("day_5/example_2.txt")
     result = solve_part_2(example_2_lines)
-    assert result == 30
+    assert result == 46
 
 
 def test_solve_part_2_with_input():
