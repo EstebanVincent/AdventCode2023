@@ -3,17 +3,20 @@ def solve_part_1(lines: list) -> int:
         total_source_range = []
         total_destination_range = []
         for step_map in step_map_list:
-            destination_range = list(range(step_map[0], step_map[0] + step_map[2]))
-            source_range = list(range(step_map[1], step_map[1] + step_map[2]))
+            destination_range = [step_map[0], step_map[0] + step_map[2]]
+            source_range = [step_map[1], step_map[1] + step_map[2]]
 
-            total_source_range += source_range
-            total_destination_range += destination_range
+            total_source_range.append(source_range)
+            total_destination_range.append(destination_range)
         next_step_elements = []
-        for element in elements:
-            try:
-                index = total_source_range.index(element)
-                next_step_elements.append(total_destination_range[index])
-            except ValueError:
+        for idx_e, element in enumerate(elements):
+            for idx_r, source_range in enumerate(total_source_range):
+                if source_range[0] < element <= source_range[1]:
+                    start_destination = total_destination_range[idx_r][0]
+                    gap = element - source_range[0]
+                    next_step_elements.append(start_destination + gap)
+                    break
+            if len(next_step_elements) != (idx_e + 1):
                 next_step_elements.append(element)
         return next_step_elements
 
